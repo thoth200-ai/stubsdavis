@@ -298,6 +298,7 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
 
 .rsvp-form input[type="text"],
 .rsvp-form input[type="number"],
+.rsvp-form input[type="email"],
 .rsvp-form textarea {
   width: 100%;
   font: inherit;
@@ -313,6 +314,7 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
 
 .rsvp-form input[type="text"]:focus,
 .rsvp-form input[type="number"]:focus,
+.rsvp-form input[type="email"]:focus,
 .rsvp-form textarea:focus {
   outline: none;
   border-color: var(--cyan);

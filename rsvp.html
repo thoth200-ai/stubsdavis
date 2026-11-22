@@ -72,6 +72,13 @@
           <p class="field-error" id="err-guests" hidden>Please enter a number of guests (1 or more).</p>
         </div>
 
+        <div class="field" id="email-field">
+          <label for="rsvp-email">Your email</label>
+          <input id="rsvp-email" name="entry.2123121873" type="email" autocomplete="email" inputmode="email">
+          <p class="field-hint">We'll email you the party address. It's not posted on the site.</p>
+          <p class="field-error" id="err-email" hidden>Please enter a valid email so we can send you the address.</p>
+        </div>
+
         <div class="field">
           <label for="rsvp-message">Leave a birthday message for Adam <span class="field-hint">(optional)</span></label>
           <textarea id="rsvp-message" name="entry.392742431" rows="4" maxlength="2000"></textarea>
@@ -107,6 +114,8 @@
       const name = document.getElementById('rsvp-name');
       const guests = document.getElementById('rsvp-guests');
       const guestsField = document.getElementById('guests-field');
+      const email = document.getElementById('rsvp-email');
+      const emailField = document.getElementById('email-field');
       const submitBtn = document.getElementById('rsvp-submit');
       const radios = form.querySelectorAll('input[name="entry.200052393"]');
       let sent = false;
@@ -119,6 +128,7 @@
       // Hide the guest count when someone says No (Google still gets "0").
       radios.forEach(r => r.addEventListener('change', () => {
         guestsField.hidden = coming() === 'No';
+        emailField.hidden = coming() === 'No';
         document.getElementById('err-coming').hidden = true;
       }));
 
@@ -131,13 +141,16 @@
         if (coming() === 'Yes') {
           const n = parseInt(guests.value, 10);
           show('err-guests', !(n >= 1));
+          show('err-email', !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim()));
         } else {
           show('err-guests', false);
+          show('err-email', false);
         }
 
         if (!ok) { e.preventDefault(); return; }
 
-        if (coming() === 'No') guests.value = '0';
+        if (coming() === 'No') { guests.value = '0'; email.value = ''; }
+        email.value = email.value.trim();
         sent = true;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Sending…';
@@ -151,7 +164,7 @@
           document.getElementById('thanks-title').textContent = 'See you there, ' + first + '!';
           const n = parseInt(guests.value, 10);
           document.getElementById('thanks-msg').textContent =
-            "We've got you down for " + n + (n === 1 ? ' guest' : ' guests') + ". Break out the neon!";
+            "We've got you down for " + n + (n === 1 ? ' guest' : ' guests') + ". Watch your inbox for the party address. Break out the neon!";
         } else {
           document.getElementById('thanks-title').textContent = "We'll miss you, " + first + '!';
           document.getElementById('thanks-msg').textContent = 'Thanks for letting us know.';
