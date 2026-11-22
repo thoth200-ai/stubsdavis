@@ -276,6 +276,29 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
   display: block;
 }
 
+/* ---------- Pets ---------- */
+.pets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.pets li {
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed #333;
+}
+.pets li:last-child { border-bottom: 0; }
+.pets strong {
+  color: var(--gold);
+  font-size: 1.1rem;
+}
+.pet-kind {
+  display: block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--cyan);
+}
+
 /* ---------- Footer ---------- */
 .site-footer {
   border-top: 3px solid var(--gold);
