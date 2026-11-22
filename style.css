@@ -297,7 +297,8 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
 }
 
 .rsvp-form input[type="text"],
-.rsvp-form input[type="number"] {
+.rsvp-form input[type="number"],
+.rsvp-form textarea {
   width: 100%;
   font: inherit;
   color: var(--text);
@@ -307,9 +308,12 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
   padding: 0.7rem 0.9rem;
 }
 .rsvp-form input[type="number"] { max-width: 8rem; }
+.rsvp-form textarea { min-height: 7rem; resize: vertical; font: inherit; }
+.field-hint { margin: 0.25rem 0 0; font-size: 0.85rem; color: var(--muted); }
 
 .rsvp-form input[type="text"]:focus,
-.rsvp-form input[type="number"]:focus {
+.rsvp-form input[type="number"]:focus,
+.rsvp-form textarea:focus {
   outline: none;
   border-color: var(--cyan);
   box-shadow: 0 0 0 3px rgba(0, 240, 255, 0.25);
