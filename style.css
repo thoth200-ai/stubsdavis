@@ -405,3 +405,30 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
   font-size: 0.9rem;
 }
 .site-footer .neon { color: var(--cyan); }
+
+/* ---------- Photo gallery ---------- */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+.gallery figure {
+  margin: 0;
+  background: var(--panel);
+  border: 3px solid var(--gold);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: 5px 5px 0 var(--cyan);
+}
+.gallery figure:nth-child(even) { box-shadow: 5px 5px 0 var(--pink); }
+.gallery img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: center 20%;
+}
+.gallery figcaption {
+  padding: 0.6rem 0.8rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
