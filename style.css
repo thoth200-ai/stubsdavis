@@ -251,6 +251,12 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
   color: var(--pink);
   font-weight: 800;
 }
+.playlist .artist {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  padding-left: 2.1em;
+}
 
 /* ---------- Placeholder marker ---------- */
 .placeholder {
