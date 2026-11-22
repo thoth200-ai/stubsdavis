@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stubs Davis Turns 50!</title>
+  <meta name="description" content="Celebrate Stubs Davis's 50th birthday.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a class="logo" href="index.html">Stubs <span>@ 50</span></a>
+      <ul>
+        <li><a class="navlink" href="index.html" aria-current="page">Home</a></li>
+        <li><a class="navlink" href="party.html">The Party</a></li>
+        <li><a class="navlink" href="rsvp.html">RSVP</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Stubs Davis Turns 50!</h1>
+      <p class="tagline">Hockey, hair bands &amp; a houseful of animals. Let's party like it's 1986.</p>
+
+      <div class="photo hero-photo">
+        <img src="photos/hero.png" alt="Stubs Davis" onerror="this.parentElement.classList.add('missing')">
+        <div class="photo-label">Photo coming soon<br>(photos/hero.png)</div>
+      </div>
+
+      <h2 style="border:0">Countdown to the Party</h2>
+      <!-- TODO: set PARTY_DATE in the script at the bottom of this page -->
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div class="unit"><span class="num" id="cd-days">--</span><span class="label">Days</span></div>
+        <div class="unit"><span class="num" id="cd-hours">--</span><span class="label">Hours</span></div>
+        <div class="unit"><span class="num" id="cd-mins">--</span><span class="label">Minutes</span></div>
+        <div class="unit"><span class="num" id="cd-secs">--</span><span class="label">Seconds</span></div>
+      </div>
+      <p class="countdown-note" id="countdown-note">Party date coming soon!</p>
+
+      <p><a class="btn" href="rsvp.html">RSVP Now</a></p>
+    </section>
+
+    <section id="bio">
+      <h2>About Stubs</h2>
+      <!-- TODO: replace with the real bio -->
+      <p><span class="placeholder">[Bio coming soon: a few paragraphs about Stubs: where they grew up, family, career, favorite stories, and what 50 years has looked like.]</span></p>
+    </section>
+
+    <section id="interests">
+      <h2>The Good Stuff</h2>
+      <div class="grid">
+        <div class="card gold">
+          <div class="photo">
+            <img src="photos/hockey.png" alt="Pittsburgh Penguins hockey" onerror="this.parentElement.classList.add('missing')">
+            <div class="photo-label">Photo coming soon<br>(photos/hockey.png)</div>
+          </div>
+          <h3>Let's Go Pens!</h3>
+          <p>A lifelong Pittsburgh Penguins fan. <span class="placeholder">[Favorite player, best game attended, or a hockey story]</span></p>
+        </div>
+
+        <div class="card">
+          <h3>80s Forever</h3>
+          <p>Big hair, synths and power ballads. <span class="placeholder">[A line about Stubs and 80s music]</span></p>
+          <!-- TODO: replace with the real playlist -->
+          <ol class="playlist">
+            <li><span class="placeholder">[Song, Artist]</span></li>
+            <li><span class="placeholder">[Song, Artist]</span></li>
+            <li><span class="placeholder">[Song, Artist]</span></li>
+            <li><span class="placeholder">[Song, Artist]</span></li>
+            <li><span class="placeholder">[Song, Artist]</span></li>
+          </ol>
+        </div>
+
+        <div class="card cyan">
+          <div class="photo">
+            <img src="photos/animals.png" alt="Stubs's animals" onerror="this.parentElement.classList.add('missing')">
+            <div class="photo-label">Photo coming soon<br>(photos/animals.png)</div>
+          </div>
+          <h3>Animal Lover</h3>
+          <p><span class="placeholder">[Pets' names and a sentence about each]</span></p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Made with love for Stubs's big <span class="neon">5-0</span> &middot; stubdavis.com</p>
+  </footer>
+
+  <script>
+    // TODO: set the party date and time, e.g. "2027-03-14T19:00:00".
+    // Leave as null until it's known.
+    const PARTY_DATE = null;
+
+    (function () {
+      const note = document.getElementById('countdown-note');
+      if (!PARTY_DATE) return;
+      const target = new Date(PARTY_DATE).getTime();
+      const el = id => document.getElementById(id);
+      const pad = n => String(n).padStart(2, '0');
+
+      function tick() {
+        const diff = target - Date.now();
+        if (diff <= 0) {
+          ['cd-days', 'cd-hours', 'cd-mins', 'cd-secs'].forEach(id => el(id).textContent = '00');
+          note.textContent = "It's party time!";
+          clearInterval(timer);
+          return;
+        }
+        el('cd-days').textContent = Math.floor(diff / 86400000);
+        el('cd-hours').textContent = pad(Math.floor(diff / 3600000) % 24);
+        el('cd-mins').textContent = pad(Math.floor(diff / 60000) % 60);
+        el('cd-secs').textContent = pad(Math.floor(diff / 1000) % 60);
+        note.textContent = new Date(PARTY_DATE).toLocaleString(undefined, {
+          weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+          hour: 'numeric', minute: '2-digit'
+        });
+      }
+      const timer = setInterval(tick, 1000);
+      tick();
+    })();
+  </script>
+</body>
+</html>
