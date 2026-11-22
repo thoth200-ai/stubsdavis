@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Adam Davis Turns 50!</title>
   <meta name="description" content="Celebrate Adam Davis's 50th birthday.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Adam Davis Turns 50">
+  <meta property="og:title" content="Adam Davis Turns 50!">
+  <meta property="og:description" content="Hockey, hair bands & a houseful of animals. Come celebrate Adam's big 5-0.">
+  <meta property="og:url" content="https://stubdavis.com/">
+  <meta property="og:image" content="https://stubdavis.com/photos/share-preview.jpg">
+  <meta property="og:image:width" content="719">
+  <meta property="og:image:height" content="377">
+  <meta property="og:image:alt" content="Adam in a Christmas sweater suit and Santa hat">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -40,6 +50,17 @@
       <p class="countdown-note" id="countdown-note">Party date coming soon!</p>
 
       <p><a class="btn" href="rsvp.html">RSVP Now</a></p>
+    </section>
+
+    <section id="numbers">
+      <h2>Adam by the Numbers</h2>
+      <div class="stats">
+        <div class="stat"><span class="stat-num">50</span><span class="stat-label">years young</span></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">years with Kevin</span></div>
+        <div class="stat"><span class="stat-num">8</span><span class="stat-label">furry roommates (7 cats, 1 dog)</span></div>
+        <div class="stat"><span class="stat-num">30&ndash;40</span><span class="stat-label">houses toured to find &ldquo;the one&rdquo;</span></div>
+        <div class="stat"><span class="stat-num">1</span><span class="stat-label">birthday shared with Santa</span></div>
+      </div>
     </section>
 
     <section id="bio">
@@ -127,10 +148,10 @@
     <p>Made with love for Adam's big <span class="neon">5-0</span> &middot; stubdavis.com</p>
   </footer>
 
+  <script src="party-info.js"></script>
   <script>
-    // TODO: set the party date and time, e.g. "2027-03-14T19:00:00".
-    // Leave as null until it's known.
-    const PARTY_DATE = null;
+    // The party date lives in party-info.js (PARTY.start).
+    const PARTY_DATE = PARTY.start;
 
     (function () {
       const note = document.getElementById('countdown-note');

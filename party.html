@@ -5,6 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>The Party | Adam Davis Turns 50</title>
   <meta name="description" content="Event details for Adam Davis's 50th birthday party.">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Adam Davis Turns 50">
+  <meta property="og:title" content="The Party | Adam Davis Turns 50">
+  <meta property="og:description" content="Date, time and details for Adam's 50th birthday party.">
+  <meta property="og:url" content="https://stubdavis.com/party.html">
+  <meta property="og:image" content="https://stubdavis.com/photos/share-preview.jpg">
+  <meta property="og:image:width" content="719">
+  <meta property="og:image:height" content="377">
+  <meta property="og:image:alt" content="Adam in a Christmas sweater suit and Santa hat">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -31,14 +41,18 @@
       <div class="card gold">
         <dl class="details">
           <dt>Date</dt>
-          <dd><span class="placeholder">[Party date TBD]</span></dd>
+          <dd id="p-date"><span class="placeholder">[Party date TBD]</span></dd>
           <dt>Time</dt>
-          <dd><span class="placeholder">[Start and end time TBD]</span></dd>
+          <dd id="p-time"><span class="placeholder">[Start and end time TBD]</span></dd>
           <dt>Venue</dt>
-          <dd><span class="placeholder">[Venue name TBD]</span></dd>
+          <dd id="p-venue"><span class="placeholder">[Venue name TBD]</span></dd>
           <dt>Address</dt>
-          <dd><span class="placeholder">[Street address, city, state ZIP]</span></dd>
+          <dd><span id="p-city"></span>We'll send the exact address to everyone who RSVPs.</dd>
         </dl>
+        <div class="cal-buttons" id="cal-buttons" hidden>
+          <a class="btn" id="cal-google" target="_blank" rel="noopener">Add to Google Calendar</a>
+          <a class="btn btn-alt" id="cal-ics" download="adam-50th-party.ics">Add to Apple / Outlook</a>
+        </div>
       </div>
     </section>
 
@@ -72,5 +86,52 @@
   <footer class="site-footer">
     <p>Made with love for Adam's big <span class="neon">5-0</span> &middot; stubdavis.com</p>
   </footer>
+
+  <script src="party-info.js"></script>
+  <script>
+    (function () {
+      const set = (id, text) => { if (text) document.getElementById(id).textContent = text; };
+      const start = PARTY.start ? new Date(PARTY.start) : null;
+      const end = PARTY.end ? new Date(PARTY.end) : (start ? new Date(start.getTime() + 4 * 3600000) : null);
+      const time = d => d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+
+      if (start) {
+        set('p-date', start.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }));
+        set('p-time', PARTY.end ? time(start) + ' to ' + time(end) : time(start));
+      }
+      set('p-venue', PARTY.venue);
+      if (PARTY.city) set('p-city', PARTY.city + '. ');
+      if (!start) return;
+
+      // Calendar buttons. Location is the venue and city only, never the street address.
+      const title = "Adam's 50th Birthday Party";
+      const where = [PARTY.venue, PARTY.city].filter(Boolean).join(', ');
+      const details = 'Details and RSVP: https://stubdavis.com';
+      const utc = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+
+      const g = new URL('https://calendar.google.com/calendar/render');
+      g.searchParams.set('action', 'TEMPLATE');
+      g.searchParams.set('text', title);
+      g.searchParams.set('dates', utc(start) + '/' + utc(end));
+      g.searchParams.set('details', details);
+      if (where) g.searchParams.set('location', where);
+      document.getElementById('cal-google').href = g.toString();
+
+      const esc = s => s.replace(/([,;\\])/g, '\\$1');
+      const ics = [
+        'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//stubdavis.com//Party//EN',
+        'BEGIN:VEVENT',
+        'UID:adam-50th@stubdavis.com',
+        'DTSTAMP:' + utc(new Date()),
+        'DTSTART:' + utc(start), 'DTEND:' + utc(end),
+        'SUMMARY:' + esc(title),
+        'DESCRIPTION:' + esc(details),
+        where ? 'LOCATION:' + esc(where) : '',
+        'END:VEVENT', 'END:VCALENDAR'
+      ].filter(Boolean).join('\r\n');
+      document.getElementById('cal-ics').href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+      document.getElementById('cal-buttons').hidden = false;
+    })();
+  </script>
 </body>
 </html>
