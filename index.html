@@ -52,6 +52,14 @@
       <p><a class="btn" href="rsvp.html">RSVP Now</a></p>
     </section>
 
+    <section id="wishes" hidden>
+      <h2>Birthday Wishes</h2>
+      <div class="ticker" id="ticker" role="region" aria-label="Birthday messages for Adam">
+        <div class="ticker-track" id="ticker-track"></div>
+      </div>
+      <p class="ticker-cta"><a href="rsvp.html">Leave Adam a message when you RSVP</a></p>
+    </section>
+
     <section id="numbers">
       <h2>Adam by the Numbers</h2>
       <div class="stats">
@@ -148,6 +156,69 @@
     <p>Made with love for Adam's big <span class="neon">5-0</span> &middot; stubdavis.com</p>
   </footer>
 
+  <script>
+    // Birthday wishes ticker. Reads the "Message Wall" tab of the RSVP Sheet,
+    // which only lists first names + messages that Kevin ticked "Show on site".
+    (function () {
+      const WALL_CSV = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQBcG44YxORz1Nn-Cp94kjK0HNP3FN1tmtPmeemaOauoiQO7GLPlCPfhMzqNHuRVPGC0xvA34UC6hQ5/pub?gid=410975614&single=true&output=csv';
+      const MAX_LEN = 280;
+      const PX_PER_SEC = 70;
+
+      function parseCSV(text) {
+        const rows = []; let row = [], field = '', q = false;
+        for (let i = 0; i < text.length; i++) {
+          const c = text[i];
+          if (q) {
+            if (c === '"' && text[i + 1] === '"') { field += '"'; i++; }
+            else if (c === '"') q = false;
+            else field += c;
+          } else if (c === '"') q = true;
+          else if (c === ',') { row.push(field); field = ''; }
+          else if (c === '\n' || c === '\r') {
+            if (c === '\r' && text[i + 1] === '\n') i++;
+            row.push(field); rows.push(row); row = []; field = '';
+          } else field += c;
+        }
+        if (field || row.length) { row.push(field); rows.push(row); }
+        return rows;
+      }
+
+      function item(name, msg) {
+        const li = document.createElement('li');
+        const m = document.createElement('span');
+        m.className = 'wish-msg';
+        m.textContent = '\u201C' + msg + '\u201D';
+        const n = document.createElement('span');
+        n.className = 'wish-name';
+        n.textContent = '\u2014 ' + name;
+        li.append(m, ' ', n);
+        return li;
+      }
+
+      fetch(WALL_CSV, { cache: 'no-store' })
+        .then(r => r.ok ? r.text() : Promise.reject(r.status))
+        .then(text => {
+          const wishes = parseCSV(text).slice(1)
+            .map(([name, msg]) => [(name || '').trim(), (msg || '').trim()])
+            .filter(([, msg]) => msg)
+            .map(([name, msg]) => [name || 'A friend', msg.length > MAX_LEN ? msg.slice(0, MAX_LEN - 1) + '\u2026' : msg]);
+          if (!wishes.length) return;
+
+          const track = document.getElementById('ticker-track');
+          const list = document.createElement('ul');
+          wishes.forEach(([n, m]) => list.append(item(n, m)));
+          // A second, hidden-from-screen-readers copy makes the loop seamless.
+          const copy = list.cloneNode(true);
+          copy.setAttribute('aria-hidden', 'true');
+          track.append(list, copy);
+          document.getElementById('wishes').hidden = false;
+
+          const width = list.getBoundingClientRect().width;
+          track.style.setProperty('--ticker-duration', Math.max(15, width / PX_PER_SEC) + 's');
+        })
+        .catch(() => { /* leave the section hidden */ });
+    })();
+  </script>
   <script src="party-info.js"></script>
   <script>
     // The party date lives in party-info.js (PARTY.start).

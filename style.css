@@ -490,3 +490,46 @@ h3 { color: var(--cyan); margin-bottom: 0.4rem; }
   color: var(--gold);
   border: 2px solid var(--gold);
 }
+
+/* ---------- Birthday wishes ticker ---------- */
+.ticker {
+  overflow: hidden;
+  background: var(--panel);
+  border-top: 3px solid var(--pink);
+  border-bottom: 3px solid var(--cyan);
+  border-radius: var(--radius);
+  padding: 0.9rem 0;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll var(--ticker-duration, 40s) linear infinite;
+}
+.ticker:hover .ticker-track,
+.ticker:focus-within .ticker-track { animation-play-state: paused; }
+.ticker-track ul {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.ticker-track li {
+  white-space: nowrap;
+  padding: 0 2.5rem;
+  border-right: 2px dotted var(--gold);
+}
+.wish-msg { color: var(--text); }
+.wish-name { color: var(--gold); font-weight: 700; }
+.ticker-track li:nth-child(odd) .wish-name { color: var(--pink); }
+.ticker-cta { text-align: center; margin-top: 0.75rem; font-size: 0.95rem; }
+@keyframes ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ticker { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .ticker-track { animation: none; }
+  .ticker-track ul[aria-hidden="true"] { display: none; }
+}
